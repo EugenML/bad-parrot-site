@@ -108,6 +108,7 @@
             <button class="slot clip" id="slotClip"><small><span class="dot on"></span>LAST 5 SEC</small><div class="wave" id="wave"></div><small>Tap to grab now</small></button>
             <button class="slot" id="slotAfter"><small>AFTER</small><span>＋</span></button>
           </div>
+          <button class="chip" id="reset" style="text-align:center; margin-bottom:6px; border-radius:999px">↺ Listen again</button>
           <div class="lines">
             <div class="group">BEFORE</div><div class="chips" id="chipsBefore"></div>
             <div class="group">AFTER</div><div class="chips" id="chipsAfter"></div>
@@ -217,6 +218,13 @@
     }
     clip = out;
     drawWave();
+  }
+
+  function reset() {
+    if (playing) return;
+    writeIndex = 0; filled = 0; clip = null; clipQuiet = false;
+    before = null; after = null;
+    drawWave(); render();
   }
 
   function drawWave() {
@@ -340,7 +348,7 @@
       chip.classList.toggle("on", (before && chip.dataset.id === before.id) || (after && chip.dataset.id === after.id));
     });
     $("play").textContent = playing ? "Playing…" : "▶ Play";
-    $("play").disabled = playing; $("dice").disabled = playing; $("slotClip").disabled = playing;
+    $("play").disabled = playing; $("dice").disabled = playing; $("slotClip").disabled = playing; $("reset").disabled = playing;
   }
 
   function build() {
@@ -355,6 +363,7 @@
     $("play").addEventListener("click", play);
     $("dice").addEventListener("click", surprise);
     $("slotClip").addEventListener("click", grab);
+    $("reset").addEventListener("click", reset);
     $("slotBefore").addEventListener("click", function () { before = null; render(); });
     $("slotAfter").addEventListener("click", function () { after = null; render(); });
   }
