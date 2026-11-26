@@ -86,7 +86,7 @@
       <p class="lede">Bad Parrot rides along in your pocket and remembers only the last five seconds. Pull out your phone, pick what the parrot says before or after, and play it back.</p>
       <span class="pill">Coming to iPhone</span>
       <ul class="points">
-        <li><b>Five seconds, nothing more</b><span>Older audio is overwritten as it goes. Nothing is stored and nothing is sent anywhere.</span></li>
+        <li><b>Five seconds, nothing more</b><span>Only the last five seconds of talk are kept, in memory. Nothing is stored and nothing is sent anywhere.</span></li>
         <li><b>You pick the commentary</b><span>Tap a line to put it before or after the clip, or let the parrot choose.</span></li>
         <li><b>Share the evidence</b><span>Line, clip and line become one sound file you can send to whoever said it.</span></li>
       </ul>
@@ -146,7 +146,6 @@
     { id: "a8", t: "Bad!", p: "after", squawk: true },
     { id: "x1", t: "Wow.", p: "any" },
     { id: "x3", t: "Classic.", p: "any" },
-    { id: "x4", t: "", p: "any", kind: "laugh", label: "Parrot laugh" },
     { id: "x5", t: "", p: "any", kind: "squawk", label: "Rrraak!" }
   ];
   var QUIET = [
@@ -282,10 +281,6 @@
     if (!line) return Promise.resolve();
     var now = ctx.currentTime + 0.02;
     if (line.kind === "squawk") { squawk(0.5, 2300, 1100, now); return wait(0.6); }
-    if (line.kind === "laugh") {
-      for (var i = 0; i < 6; i++) { var top = 2400 - i * 170; squawk(0.11, top, top * 0.72, now + i * 0.17); }
-      return wait(1.1);
-    }
     if (line.squawk) { squawk(0.38, 2300, 1200, now); return wait(0.48).then(function () { return speak(line.t); }); }
     return speak(line.t);
   }
